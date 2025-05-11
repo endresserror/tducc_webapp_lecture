@@ -162,6 +162,8 @@ function gameLoop(timestamp) {
     // Handle game over or won states
     if (gameOver) {
         displayGameOver();
+        // Allow the game to continue listening for input to restart
+        requestAnimationFrame(gameLoop);
         return;
     }
     
@@ -406,26 +408,25 @@ function updateBullets() {
     }
 }
 
+// Update the drawUI function to replace "SHIPS" with "ライフ" and use hearts for lives
 function drawUI() {
     // Draw score
     ctx.fillStyle = 'white';
     ctx.font = '20px "Press Start 2P", monospace';
     ctx.textAlign = 'left';
     ctx.fillText(`SCORE: ${score.toString().padStart(4, '0')}`, 20, 30);
-    
+
     // Draw level
     ctx.textAlign = 'center';
     ctx.fillText(`LEVEL ${level}`, canvas.width / 2, 30);
-    
-    // Draw ships/stock count
+
+    // Draw lives as hearts
     ctx.textAlign = 'right';
-    ctx.fillText(`SHIPS: ${lives}`, canvas.width - 20, 30);
-    
-    // Draw extra ships indicators (stock)
-    for (let i = 0; i < lives - 1; i++) {
-        ctx.drawImage(sprites.player, canvas.width - 100 + (i * 30), 40, 25, 15);
+    ctx.fillText(`ライフ:`, canvas.width - 100, 30);
+    for (let i = 0; i < lives; i++) {
+        ctx.fillText('❤', canvas.width - 60 - (i * 20), 30);
     }
-    
+
     // Draw current health status
     if (player && !gameOver) {
         ctx.textAlign = 'left';
@@ -434,23 +435,25 @@ function drawUI() {
 }
 
 // ゲームオーバーとゲーム勝利画面を共通化した関数
+// Update the displayGameStatus function to include the new title
 function displayGameStatus(title, isGameOver = true) {
     ctx.fillStyle = 'white';
     ctx.font = '40px "Press Start 2P", monospace';
     ctx.textAlign = 'center';
+    ctx.fillText('ランドセルvsコンちゃん~鳩山決戦~', canvas.width / 2, canvas.height / 2 - 80);
     ctx.fillText(title, canvas.width / 2, canvas.height / 2 - 40);
-    
+
     ctx.font = '20px "Press Start 2P", monospace';
     ctx.fillText(`FINAL SCORE: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
     ctx.fillText('PRESS ENTER TO PLAY AGAIN', canvas.width / 2, canvas.height / 2 + 60);
-    
+
     // Check for Enter key press to restart
     if (window.controls && window.controls['Enter']) {
         if (enterReleased) {
             resetGame();
             enterReleased = false;
-            // ゲームループを再開する
-            lastTime = performance.now(); // タイムスタンプをリセット
+            // Restart the game loop
+            lastTime = performance.now();
             requestAnimationFrame(gameLoop);
         }
     } else {
