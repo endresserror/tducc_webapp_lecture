@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鳩山を守れ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Google Font for retro arcade look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="arcade-cabinet">
+        <div class="game-title">鳩山を守れ</div>
+        <div id="game-container">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+        </div>
+        <div class="controls-info">
+            <div>← → : MOVE</div>
+            <div>SPACE : 火遁の術</div>
+            <div>ENTER : RESTART</div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
