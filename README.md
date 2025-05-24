@@ -1,4 +1,4 @@
-# Space Invaders Web App - Webアプリ開発講座
+# Webアプリ開発講座
 
 ## はじめに
 
